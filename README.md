@@ -7,3 +7,5 @@
 
 # de.wenzlaff.twpdftagger
 PDF Metadate tagger
+
+Überwacht ein Input Verzeichnis und taggt die PDF Dateien und legt eine kopie im Output Verzeichnis an.
