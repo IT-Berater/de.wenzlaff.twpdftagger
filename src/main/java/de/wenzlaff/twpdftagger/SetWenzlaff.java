@@ -2,12 +2,14 @@ package de.wenzlaff.twpdftagger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +27,7 @@ import com.itextpdf.text.xml.xmp.XmpWriter;
  */
 public class SetWenzlaff {
 
+	private static final String PROP_DATEINAME = "twpdftagger-metadata.properties";
 	private static final Logger LOG = LogManager.getLogger(SetWenzlaff.class);
 
 	/**
@@ -62,17 +65,41 @@ public class SetWenzlaff {
 	}
 
 	private static void setMetadatenWenzlaff(HashMap<String, String> metadata, String pdfDateiName) {
-		metadata.put("Title", "Thomas Wenzlaff");
-		metadata.put("Subject", "(c) 2018 by Thomas Wenzlaff");
-		metadata.put("Author", "Thomas Wenzlaff");
-		metadata.put("Keywords", "TWPdfTagger, Thomas Wenzlaff, www.wenzlaff.de, " + pdfDateiName);
+
+		Properties appProps = readMetadata();
+
+		metadata.put("Title", appProps.getProperty("Title"));
+		metadata.put("Subject", appProps.getProperty("Subject"));
+		metadata.put("Author", appProps.getProperty("Author"));
+		metadata.put("Keywords", appProps.getProperty("Keywords") + ", " + pdfDateiName);
 		// Anwendung
-		metadata.put("Creator", "(c) de.wenzlaff.twpdftagger");
+		metadata.put("Creator", "(c) de.wenzlaff.twpdftagger by Thomas Wenzlaff");
 
 		// Benuzterdefinierte
-		metadata.put("Copyright", "Thomas Wenzlaff");
-		metadata.put("Webpage", "http://www.wenzlaff.de");
+		metadata.put("Copyright", appProps.getProperty("Copyright"));
+		metadata.put("Webpage", appProps.getProperty("Webpage"));
 		metadata.put("Dateiname", pdfDateiName);
+	}
+
+	private static Properties readMetadata() {
+
+		Properties appProps = null;
+		try {
+			String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+			String appConfigPath = rootPath + PROP_DATEINAME;
+
+			appProps = new Properties();
+			appProps.load(new FileInputStream(appConfigPath));
+
+			LOG.info("Lese Metadata aus Properties Datei. {}", appProps);
+
+		} catch (IOException e) {
+
+			LOG.error("Fehler beim lesen der {} Properties.", PROP_DATEINAME, e);
+		}
+
+		return appProps;
+
 	}
 
 }
