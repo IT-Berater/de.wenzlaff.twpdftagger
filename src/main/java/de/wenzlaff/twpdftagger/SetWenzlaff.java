@@ -22,37 +22,41 @@ import com.itextpdf.text.xml.xmp.XmpWriter;
 /**
  * Klasse zum setzen der eigenen Metadaten in PDF Dateien.
  * 
+ * Die zu setzenden Metainfos werden aus einer Propertie Datei eingelesen.
+ * 
  * @author Thomas Wenzlaff
  *
  */
 public class SetWenzlaff {
 
 	private static final String PROP_DATEINAME = "twpdftagger-metadata.properties";
+
 	private static final Logger LOG = LogManager.getLogger(SetWenzlaff.class);
 
 	/**
 	 * Setzte die Metadaten in eine PDF Datei.
 	 * 
 	 * @param pdfInputDateiName
-	 * @param outputPath
-	 * @param pdfDateiName
+	 * @param pdfZielPath
+	 * @param pdfZielDateiName
 	 * @throws IOException
 	 * @throws DocumentException
 	 * @throws FileNotFoundException
 	 */
-	public static void setMetadaten(URL pdfInputDateiName, Path outputPath, String pdfDateiName) throws IOException, DocumentException, FileNotFoundException {
+	public static void setMetadaten(URL pdfInputDateiName, Path pdfZielPath, String pdfZielDateiName)
+			throws IOException, DocumentException, FileNotFoundException {
 
 		PdfReader inputPdf = new PdfReader(pdfInputDateiName);
 
 		LOG.info("Überschreibe die Metadaten aus Datei {} mit eigene.", pdfInputDateiName);
 		LOG.info("Folgende Metadaten werden überschrieben: {} ", inputPdf.getInfo());
 
-		File ausgabePdf = new File(outputPath.toFile(), pdfDateiName);
+		File ausgabePdf = new File(pdfZielPath.toFile(), pdfZielDateiName);
 
 		PdfStamper outputPdf = new PdfStamper(inputPdf, new FileOutputStream(ausgabePdf));
 
 		HashMap<String, String> metadata = inputPdf.getInfo();
-		setMetadatenWenzlaff(metadata, pdfDateiName);
+		setMetadatenWenzlaff(metadata, pdfZielDateiName);
 
 		outputPdf.setMoreInfo(metadata);
 		outputPdf.setFullCompression();
@@ -64,21 +68,21 @@ public class SetWenzlaff {
 		outputPdf.close();
 	}
 
-	private static void setMetadatenWenzlaff(HashMap<String, String> metadata, String pdfDateiName) {
+	private static void setMetadatenWenzlaff(HashMap<String, String> metadata, String pdfZielDateiName) {
 
 		Properties appProps = readMetadata();
 
 		metadata.put("Title", appProps.getProperty("Title"));
 		metadata.put("Subject", appProps.getProperty("Subject"));
 		metadata.put("Author", appProps.getProperty("Author"));
-		metadata.put("Keywords", appProps.getProperty("Keywords") + ", " + pdfDateiName);
+		metadata.put("Keywords", appProps.getProperty("Keywords") + ", " + pdfZielDateiName);
 		// Anwendung
 		metadata.put("Creator", "(c) de.wenzlaff.twpdftagger by Thomas Wenzlaff");
 
 		// Benuzterdefinierte
 		metadata.put("Copyright", appProps.getProperty("Copyright"));
 		metadata.put("Webpage", appProps.getProperty("Webpage"));
-		metadata.put("Dateiname", pdfDateiName);
+		metadata.put("Dateiname", pdfZielDateiName);
 	}
 
 	private static Properties readMetadata() {
@@ -94,12 +98,9 @@ public class SetWenzlaff {
 			LOG.info("Lese Metadata aus Properties Datei. {}", appProps);
 
 		} catch (IOException e) {
-
 			LOG.error("Fehler beim lesen der {} Properties.", PROP_DATEINAME, e);
 		}
-
 		return appProps;
-
 	}
 
 }
