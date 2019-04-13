@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.xml.xmp.XmpWriter;
 
 /**
@@ -33,8 +32,6 @@ public class SetWenzlaff {
 	private static final String PROP_DATEINAME = "twpdftagger-metadata.properties";
 
 	private static final Logger LOG = LogManager.getLogger(SetWenzlaff.class);
-
-	private static Properties appProps;
 
 	/**
 	 * Setzte die Metadaten in eine PDF Datei.
@@ -64,13 +61,6 @@ public class SetWenzlaff {
 		outputPdf.setMoreInfo(metadata);
 		outputPdf.setFullCompression();
 
-		if (appProps.getProperty("Verschlüsseln").equalsIgnoreCase("ja")) {
-			LOG.info("Verschlüsselung für User {} ", appProps.getProperty("Username"));
-			outputPdf.setEncryption(appProps.getProperty("Passwort").getBytes(),
-					appProps.getProperty("Username").getBytes(), PdfWriter.ALLOW_PRINTING,
-					PdfWriter.STANDARD_ENCRYPTION_128);
-		}
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		XmpWriter xmp = new XmpWriter(baos, metadata);
 		xmp.close();
@@ -97,6 +87,7 @@ public class SetWenzlaff {
 
 	private static Properties readMetadata() {
 
+		Properties appProps = null;
 		try {
 			String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 			String appConfigPath = rootPath + PROP_DATEINAME;
