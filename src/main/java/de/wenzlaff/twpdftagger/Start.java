@@ -1,5 +1,6 @@
 package de.wenzlaff.twpdftagger;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.FileSystems;
@@ -11,12 +12,29 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.itextpdf.text.DocumentException;
 
 public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class);
+
+	private static final String VERSION = "0.0.3";
+
+	private static Options options = new Options();
+
+	private Start() {
+		// nur Util
+	}
 
 	/**
 	 * Start Methdode.
@@ -24,13 +42,71 @@ public class Start {
 	 * @param args
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "deprecation", "static-access" })
 	public static void main(String[] args) throws Exception {
 
+		options.addOption("h", "hilfe", false, "zeige die Hilfe.");
+		options.addOption("v", "version", false, "zeige die Version des Programms an");
+
+		Option pdfInputVerzeichnis = OptionBuilder.withArgName("Input Verzeichnis").hasArg()
+				.withDescription("Pdf-Input Verzeichnis relativ zum Startverzeichnis (default ./input)").create("i");
+		options.addOption(pdfInputVerzeichnis);
+
+		Option pdfOutputVerzeichnis = OptionBuilder.withArgName("Output Verzeichnis").hasArg()
+				.withDescription("Pdf-Output Verzeichnis  relativ zum Startverzeichnis (default ./output)").create("o");
+		options.addOption(pdfOutputVerzeichnis);
+
+		Option passwortOption = OptionBuilder.withArgName("Passwort").hasArg()
+				.withDescription(
+						"Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)")
+				.create("p");
+		options.addOption(passwortOption);
+
+		CommandLineParser parser = new DefaultParser();
+		CommandLine cmd = null;
+		try {
+			cmd = parser.parse(options, args);
+		} catch (Exception e) {
+			System.err.println("ERROR: Fehler beim parsen der Kommandozeile. " + e.getLocalizedMessage());
+			ausgabeHilfe();
+			return;
+		}
+
+		if (cmd.hasOption("h")) {
+			ausgabeHilfe();
+			return;
+		}
+
+		if (cmd.hasOption("v")) {
+			System.out.println("Programm Version " + VERSION);
+			ausgabeHilfe();
+			return;
+		}
+		String inputVerz = "input";
+
+		if (cmd.hasOption("i")) {
+			inputVerz = cmd.getOptionValue("i");
+			System.out.println("Input:" + inputVerz);
+		}
+
+		String outputVerz = "output";
+
+		if (cmd.hasOption("o")) {
+			outputVerz = cmd.getOptionValue("o");
+			System.out.println("Output:" + outputVerz);
+		}
+
+		String passwort = "";
+
+		if (cmd.hasOption("p")) {
+			passwort = cmd.getOptionValue("p");
+			System.out.println("Passwort:" + passwort);
+		}
 		LOG.info("Programm Start ... ");
 
 		final String rootVerzeichnis = System.getProperty("user.dir");
-		final Path inputPath = Paths.get(rootVerzeichnis, "input");
-		final Path outputPath = Paths.get(rootVerzeichnis, "output");
+		final Path inputPath = Paths.get(rootVerzeichnis, inputVerz);
+		final Path outputPath = Paths.get(rootVerzeichnis, outputVerz);
 		mkdir(inputPath);
 		mkdir(outputPath);
 
@@ -42,14 +118,25 @@ public class Start {
 		WatchKey key;
 		while ((key = watchService.take()) != null) {
 			for (WatchEvent<?> event : key.pollEvents()) {
-				aktion(inputPath, outputPath, event);
+				aktion(inputPath, outputPath, event, passwort);
 			}
 			key.reset();
 		}
 		LOG.info("Programm beendet.");
 	}
 
-	private static void aktion(final Path inputPath, final Path outputPath, WatchEvent<?> event) {
+	private static void ausgabeHilfe() {
+
+		HelpFormatter formatter = new HelpFormatter();
+
+		formatter.printHelp("de.wenzlaff.twpdftagger", options);
+
+		System.out.println();
+		System.out.println("Siehe http://www.wenzlaff.info");
+	}
+
+	private static void aktion(final Path inputPath, final Path outputPath, WatchEvent<?> event, String passwort)
+			throws FileNotFoundException, IOException, DocumentException {
 
 		String neueDatei = event.context().toString();
 
@@ -58,12 +145,9 @@ public class Start {
 			LOG.info("Bearbeite neue PDF Datei: {} ", neueDatei);
 
 			URL inputUrl = null;
-			try {
-				inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
-				SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei);
-			} catch (Exception e) {
-				LOG.error("Nicht behandelte Datei: {}  Input URL: {} Fehlermeldung: {}", neueDatei, inputUrl, e);
-			}
+
+			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
+			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
 		}
 	}
 
