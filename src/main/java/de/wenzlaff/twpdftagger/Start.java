@@ -37,7 +37,7 @@ public class Start {
 	}
 
 	/**
-	 * Start Methdode.
+	 * Start Methode.
 	 * 
 	 * @param args
 	 * @throws Exception
@@ -49,11 +49,11 @@ public class Start {
 		options.addOption("v", "version", false, "zeige die Version des Programms an");
 
 		Option pdfInputVerzeichnis = OptionBuilder.withArgName("Input Verzeichnis").hasArg()
-				.withDescription("Pdf-Input Verzeichnis relativ zum Startverzeichnis (default ./input)").create("i");
+				.withDescription("Pdf-Input Verzeichnis relativ zum Userverzeichnis (default ./input)").create("i");
 		options.addOption(pdfInputVerzeichnis);
 
 		Option pdfOutputVerzeichnis = OptionBuilder.withArgName("Output Verzeichnis").hasArg()
-				.withDescription("Pdf-Output Verzeichnis  relativ zum Startverzeichnis (default ./output)").create("o");
+				.withDescription("Pdf-Output Verzeichnis  relativ zum Userverzeichnis (default ./output)").create("o");
 		options.addOption(pdfOutputVerzeichnis);
 
 		Option passwortOption = OptionBuilder.withArgName("Passwort").hasArg()
@@ -104,9 +104,9 @@ public class Start {
 		}
 		LOG.info("Programm Start ... ");
 
-		final String rootVerzeichnis = System.getProperty("user.dir");
-		final Path inputPath = Paths.get(rootVerzeichnis, inputVerz);
-		final Path outputPath = Paths.get(rootVerzeichnis, outputVerz);
+		String rootVerzeichnis = System.getProperty("user.dir");
+		Path inputPath = Paths.get(rootVerzeichnis, inputVerz);
+		Path outputPath = Paths.get(rootVerzeichnis, outputVerz);
 		mkdir(inputPath);
 		mkdir(outputPath);
 
