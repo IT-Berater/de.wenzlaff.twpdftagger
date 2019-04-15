@@ -102,7 +102,7 @@ public class Start {
 			passwort = cmd.getOptionValue("p");
 			System.out.println("Passwort:" + passwort);
 		}
-		LOG.info("Programm Start ... ");
+		LOG.info("Programm Start mit Version " + VERSION + " ...");
 
 		String rootVerzeichnis = System.getProperty("user.dir");
 		Path inputPath = Paths.get(rootVerzeichnis, inputVerz);
