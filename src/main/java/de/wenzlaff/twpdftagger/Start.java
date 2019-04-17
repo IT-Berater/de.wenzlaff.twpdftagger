@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.itextpdf.text.DocumentException;
 
-public class Start {
+final public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class);
 

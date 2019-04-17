@@ -26,7 +26,7 @@ import com.itextpdf.text.xml.xmp.XmpWriter;
  * @author Thomas Wenzlaff
  *
  */
-public class SetWenzlaff {
+final public class SetWenzlaff {
 
 	private static final Logger LOG = LogManager.getLogger(SetWenzlaff.class);
 
