@@ -1,7 +1,9 @@
 package de.wenzlaff.twpdftagger;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -136,7 +138,7 @@ final public class Start {
 	}
 
 	private static void aktion(final Path inputPath, final Path outputPath, WatchEvent<?> event, String passwort)
-			throws FileNotFoundException, IOException, DocumentException {
+			throws FileNotFoundException, IOException, DocumentException, URISyntaxException {
 
 		String neueDatei = event.context().toString();
 
@@ -148,6 +150,8 @@ final public class Start {
 
 			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
 			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
+
+			LOG.info("Textinhalt: {}", PdfReader.getText(new File(inputUrl.toURI()), ","));
 		}
 	}
 
