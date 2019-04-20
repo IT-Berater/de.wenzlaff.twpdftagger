@@ -38,6 +38,17 @@ public class StartTest {
 		assertEquals("Fehler:  (No such file or directory)", ergebnisText);
 	}
 
+	@DisplayName("PDF extrahieren von Text mit Ungültigen Datei gleich null")
+	@Test
+	public void testPdfTextExportNegNull() {
+
+		String ergebnisText = PdfReader.getTextMitTrenner(null, ",");
+
+		System.out.println("Ergebnis: " + ergebnisText);
+
+		assertEquals("Fehler: Keine PDF Datei angegeben", ergebnisText);
+	}
+
 	@DisplayName("PDF extrahieren von Text")
 	@Test
 	public void testPdfTextExport() {

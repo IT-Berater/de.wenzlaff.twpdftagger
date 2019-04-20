@@ -23,9 +23,13 @@ final public class PdfReader {
 	}
 
 	public static String getTextMitTrenner(File pdfInput, String trenner) {
+		if (pdfInput == null) {
+			return "Fehler: Keine PDF Datei angegeben";
+		}
 		if (trenner == null) {
 			trenner = ",";
 		}
+		LOG.info("Verwende Trennzeichen {}", trenner);
 
 		String pdfText = "";
 		try {
