@@ -17,21 +17,16 @@ final public class PdfReader {
 		// nur Util
 	}
 
-	public static String getText(File pdfInput, String trenner) {
+	public static String getTextMitTrenner(File pdfInput, String trenner) {
 
-		String pdfFileInText = "";
+		String pdfText = "";
 		try {
-			PDFTextStripper textStripper = new PDFTextStripper();
-			textStripper.setStartPage(1);
-			textStripper.setEndPage(3);
-
 			PDDocument document = PDDocument.load(pdfInput);
 
 			if (!document.isEncrypted()) {
-
-				pdfFileInText = textStripper.getText(document);
-
-				pdfFileInText = pdfFileInText.replace("\n", trenner);
+				PDFTextStripper textStripper = new PDFTextStripper();
+				pdfText = textStripper.getText(document);
+				pdfText = pdfText.replace("\n", trenner);
 			} else {
 				String meldung = "Info: Das Dokument ist verschlüsselt und kann nicht gelesen werden.";
 				System.out.println(meldung);
@@ -42,7 +37,7 @@ final public class PdfReader {
 
 		}
 		// letztes Trennzeichen entfernen
-		pdfFileInText = pdfFileInText.substring(0, pdfFileInText.length() - trenner.length());
-		return pdfFileInText;
+		pdfText = pdfText.substring(0, pdfText.length() - trenner.length());
+		return pdfText;
 	}
 }
