@@ -51,4 +51,17 @@ public class StartTest {
 				ergebnisText);
 	}
 
+	@DisplayName("PDF extrahieren von Text mit defalut Trenner")
+	@Test
+	public void testPdfTextExportTrenner() {
+
+		String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), null);
+
+		System.out.println("Ergebnis: " + ergebnisText);
+
+		assertEquals(
+				"12 Top ,Skills,Emotionale Intelligenz,Kritisches Denken,Veränderungsbereitschaft,Analytisches Denken,Selbstorganisation,Neugier,Selektion relevanter Informationen,Problemlösungskompetenz,Interkulturelle Kompetenz,Entwicklungsbereitschaft,Digitale Kommunikation,Lebenslanges Lernen,Dr. Kleinhirn.eu",
+				ergebnisText);
+	}
+
 }
