@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author Thomas Wenzlaff
  *
  */
-public class StartTest {
+class StartTest {
 
 	@ParameterizedTest(name = "{index}. Überprüfter Kommandozeilen Parameter: {arguments}")
 	@CsvSource({ "-h", "-v", "-Kommandozeilenfehler" })
@@ -34,7 +34,7 @@ public class StartTest {
 
 		@DisplayName("PDF extrahieren von Text mit Ungültigen Verzeichnis")
 		@Test
-		public void testPdfTextExportNeg() {
+		void testPdfTextExportNeg() {
 
 			String ergebnisText = PdfReader.getTextMitTrenner(new File(""), ",");
 
@@ -84,7 +84,5 @@ public class StartTest {
 					"12 Top ,Skills,Emotionale Intelligenz,Kritisches Denken,Veränderungsbereitschaft,Analytisches Denken,Selbstorganisation,Neugier,Selektion relevanter Informationen,Problemlösungskompetenz,Interkulturelle Kompetenz,Entwicklungsbereitschaft,Digitale Kommunikation,Lebenslanges Lernen,Dr. Kleinhirn.eu",
 					ergebnisText);
 		}
-
 	}
-
 }
