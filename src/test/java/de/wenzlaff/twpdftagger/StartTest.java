@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.File;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,52 +28,63 @@ public class StartTest {
 		Start.main(new String[] { kommandozeilenparameter });
 	}
 
-	@DisplayName("PDF extrahieren von Text mit Ungültigen Verzeichnis")
-	@Test
-	public void testPdfTextExportNeg() {
+	@DisplayName("Neg. extrahieren Tests")
+	@Nested
+	class NegativTests {
 
-		String ergebnisText = PdfReader.getTextMitTrenner(new File(""), ",");
+		@DisplayName("PDF extrahieren von Text mit Ungültigen Verzeichnis")
+		@Test
+		public void testPdfTextExportNeg() {
 
-		System.out.println("Ergebnis: " + ergebnisText);
+			String ergebnisText = PdfReader.getTextMitTrenner(new File(""), ",");
 
-		assertEquals("Fehler:  (No such file or directory)", ergebnisText);
+			System.out.println("Ergebnis: " + ergebnisText);
+
+			assertEquals("Fehler:  (No such file or directory)", ergebnisText);
+		}
+
+		@DisplayName("PDF extrahieren von Text mit Ungültigen Datei gleich null")
+		@Test
+		void testPdfTextExportNegNull() {
+
+			String ergebnisText = PdfReader.getTextMitTrenner(null, ",");
+
+			System.out.println("Ergebnis: " + ergebnisText);
+
+			assertEquals("Fehler: Keine PDF Datei angegeben", ergebnisText);
+		}
 	}
 
-	@DisplayName("PDF extrahieren von Text mit Ungültigen Datei gleich null")
-	@Test
-	public void testPdfTextExportNegNull() {
+	@DisplayName("Pos. extrahieren Tests")
+	@Nested
+	class PositivTests {
 
-		String ergebnisText = PdfReader.getTextMitTrenner(null, ",");
+		@DisplayName("PDF extrahieren von Text")
+		@Test
+		void testPdfTextExport() {
 
-		System.out.println("Ergebnis: " + ergebnisText);
+			String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), ",");
 
-		assertEquals("Fehler: Keine PDF Datei angegeben", ergebnisText);
-	}
+			System.out.println("Ergebnis: " + ergebnisText);
 
-	@DisplayName("PDF extrahieren von Text")
-	@Test
-	public void testPdfTextExport() {
+			assertEquals(
+					"12 Top ,Skills,Emotionale Intelligenz,Kritisches Denken,Veränderungsbereitschaft,Analytisches Denken,Selbstorganisation,Neugier,Selektion relevanter Informationen,Problemlösungskompetenz,Interkulturelle Kompetenz,Entwicklungsbereitschaft,Digitale Kommunikation,Lebenslanges Lernen,Dr. Kleinhirn.eu",
+					ergebnisText);
+		}
 
-		String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), ",");
+		@DisplayName("PDF extrahieren von Text mit defalut Trenner")
+		@Test
+		void testPdfTextExportTrenner() {
 
-		System.out.println("Ergebnis: " + ergebnisText);
+			String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), null);
 
-		assertEquals(
-				"12 Top ,Skills,Emotionale Intelligenz,Kritisches Denken,Veränderungsbereitschaft,Analytisches Denken,Selbstorganisation,Neugier,Selektion relevanter Informationen,Problemlösungskompetenz,Interkulturelle Kompetenz,Entwicklungsbereitschaft,Digitale Kommunikation,Lebenslanges Lernen,Dr. Kleinhirn.eu",
-				ergebnisText);
-	}
+			System.out.println("Ergebnis: " + ergebnisText);
 
-	@DisplayName("PDF extrahieren von Text mit defalut Trenner")
-	@Test
-	public void testPdfTextExportTrenner() {
+			assertEquals(
+					"12 Top ,Skills,Emotionale Intelligenz,Kritisches Denken,Veränderungsbereitschaft,Analytisches Denken,Selbstorganisation,Neugier,Selektion relevanter Informationen,Problemlösungskompetenz,Interkulturelle Kompetenz,Entwicklungsbereitschaft,Digitale Kommunikation,Lebenslanges Lernen,Dr. Kleinhirn.eu",
+					ergebnisText);
+		}
 
-		String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), null);
-
-		System.out.println("Ergebnis: " + ergebnisText);
-
-		assertEquals(
-				"12 Top ,Skills,Emotionale Intelligenz,Kritisches Denken,Veränderungsbereitschaft,Analytisches Denken,Selbstorganisation,Neugier,Selektion relevanter Informationen,Problemlösungskompetenz,Interkulturelle Kompetenz,Entwicklungsbereitschaft,Digitale Kommunikation,Lebenslanges Lernen,Dr. Kleinhirn.eu",
-				ergebnisText);
 	}
 
 }
