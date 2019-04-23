@@ -120,7 +120,11 @@ final public class Start {
 		WatchKey key;
 		while ((key = watchService.take()) != null) {
 			for (WatchEvent<?> event : key.pollEvents()) {
-				aktion(inputPath, outputPath, event, passwort);
+				try {
+					aktion(inputPath, outputPath, event, passwort);
+				} catch (Exception e) {
+					LOG.error("Fehler aufgetreten: {}", e.getLocalizedMessage());
+				}
 			}
 			key.reset();
 		}
