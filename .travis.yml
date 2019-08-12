@@ -5,6 +5,8 @@ sudo: false # faster builds
 jdk:
   - oraclejdk8
   
+dist: trusty
+  
 script: 
 
   - mvn clean install package
