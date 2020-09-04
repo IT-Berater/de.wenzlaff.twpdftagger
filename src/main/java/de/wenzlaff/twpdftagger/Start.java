@@ -30,7 +30,7 @@ final public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class);
 
-	private static final String VERSION = "0.0.3";
+	public static final String VERSION = "0.0.4";
 
 	private static Options options = new Options();
 
@@ -59,9 +59,7 @@ final public class Start {
 		options.addOption(pdfOutputVerzeichnis);
 
 		Option passwortOption = OptionBuilder.withArgName("Passwort").hasArg()
-				.withDescription(
-						"Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)")
-				.create("p");
+				.withDescription("Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)").create("p");
 		options.addOption(passwortOption);
 
 		CommandLineParser parser = new DefaultParser();

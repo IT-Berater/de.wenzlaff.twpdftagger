@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +31,7 @@ import com.itextpdf.text.xml.xmp.XmpWriter;
  */
 final public class SetWenzlaff {
 
+	private static final String THOMAS_WENZLAFF = "Thomas Wenzlaff";
 	private static final Logger LOG = LogManager.getLogger(SetWenzlaff.class);
 
 	/**
@@ -61,8 +65,7 @@ final public class SetWenzlaff {
 
 		if (!passwort.isEmpty()) {
 			LOG.info("Verschlüsselung für User Thomas Wenzlaff");
-			outputPdf.setEncryption(passwort.getBytes(), "Thomas Wenzlaff".getBytes(), PdfWriter.ALLOW_PRINTING,
-					PdfWriter.STANDARD_ENCRYPTION_128);
+			outputPdf.setEncryption(passwort.getBytes(), THOMAS_WENZLAFF.getBytes(), PdfWriter.ALLOW_PRINTING, PdfWriter.STANDARD_ENCRYPTION_128);
 		}
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,18 +77,51 @@ final public class SetWenzlaff {
 
 	private static void setMetadatenWenzlaff(HashMap<String, String> metadata, String pdfZielDateiName) {
 
+		// exiftool -artist="Thomas Wenzlaff" -copyright="© Copyright 2020 Thomas
+		// Wenzlaff, all rights reserved - info-anfrage@wenzlaff.de" -contact="Thomas
+		// Wenzlaff" -writer="Thomas Wenzlaff" -country="Deutschland"
+		// -city="Langenhagen" -DateCreated="20200904" -credit="Thomas Wenzlaff"
+		// -creditLine="Thomas Wenzlaff" -creator="Thomas Wenzlaff"
+		// -licensorURL="http://kleinhirn.eu/impressum/" -copyrightNotice="© Copyright
+		// 2020 Thomas Wenzlaff, all rights reserved - info-anfrage@wenzlaff.de" -s
+		// ./uploads/2010/*
+
 		metadata.put("Title", pdfZielDateiName);
 		metadata.put("Subject", pdfZielDateiName);
-		metadata.put("Author", "Thomas Wenzlaff");
+		metadata.put("Author", THOMAS_WENZLAFF);
+		metadata.put("artist", THOMAS_WENZLAFF);
+		metadata.put("contact", THOMAS_WENZLAFF);
+		metadata.put("credit", THOMAS_WENZLAFF);
+		metadata.put("creditLine", THOMAS_WENZLAFF);
+		metadata.put("creator", THOMAS_WENZLAFF);
+		metadata.put("writer", THOMAS_WENZLAFF);
+
+		metadata.put("country", "Deutschland");
+		metadata.put("city", "Langenhagen");
+
+		metadata.put("DateCreated", getDatum());
+
+		metadata.put("licensorURL", "http://kleinhirn.eu/impressum/");
+
+		String copyrightNotice = "© Copyright " + getJahr() + " " + THOMAS_WENZLAFF + ", all rights reserved - info-anfrage@wenzlaff.de";
+		metadata.put("copyrightNotice", copyrightNotice);
+		metadata.put("copyright", copyrightNotice);
+
 		metadata.put("Keywords", pdfZielDateiName);
 
-		// Anwendung
-		metadata.put("Creator", "(c) 2019 de.wenzlaff.twpdftagger by Thomas Wenzlaff");
-
-		// Benuzterdefinierte
-		metadata.put("Copyright", "Thomas Wenzlaff");
+		metadata.put("Creator", "© " + getJahr() + " de.wenzlaff.twpdftagger " + Start.VERSION + " by " + THOMAS_WENZLAFF);
+		metadata.put("Copyright", THOMAS_WENZLAFF);
 		metadata.put("Webpage", "http://www.wenzlaff.de");
+
 		metadata.put("Dateiname", pdfZielDateiName);
+	}
+
+	private static String getJahr() {
+		return LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY"));
+	}
+
+	private static String getDatum() {
+		return LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 	}
 
 }

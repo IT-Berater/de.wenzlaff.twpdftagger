@@ -25,8 +25,6 @@ final public class PdfReader {
 
 	private static final Logger LOG = LogManager.getLogger(PdfReader.class);
 
-	private static final String VERSION = "0.0.1";
-
 	private static Options options = new Options();
 
 	private PdfReader() {
@@ -38,8 +36,7 @@ final public class PdfReader {
 		options.addOption("h", "hilfe", false, "zeige die Hilfe.");
 		options.addOption("v", "version", false, "zeige die Version des Programms an");
 
-		Option pdfInputVerzeichnis = OptionBuilder.withArgName("PDF Datei").hasArg()
-				.withDescription("Pdf-Input Datei inkl. Path)").create("i");
+		Option pdfInputVerzeichnis = OptionBuilder.withArgName("PDF Datei").hasArg().withDescription("Pdf-Input Datei inkl. Path)").create("i");
 		options.addOption(pdfInputVerzeichnis);
 
 		CommandLineParser parser = new DefaultParser();
@@ -58,7 +55,7 @@ final public class PdfReader {
 		}
 
 		if (cmd.hasOption("v")) {
-			System.out.println("Programm Version " + VERSION);
+			System.out.println("Programm Version " + Start.VERSION);
 			ausgabeHilfe();
 			return;
 		}
@@ -76,7 +73,7 @@ final public class PdfReader {
 			System.out.println("Trenner:" + trenner);
 		}
 
-		LOG.info("Programm Start mit Version " + VERSION + " ...");
+		LOG.info("Programm Start mit Version " + Start.VERSION + " ...");
 
 		String erg = PdfReader.getTextMitTrenner(new File(inputVerz), trenner);
 
