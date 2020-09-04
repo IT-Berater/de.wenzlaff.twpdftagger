@@ -49,12 +49,10 @@ final public class PdfReader {
 			ausgabeHilfe();
 			return;
 		}
-
 		if (cmd.hasOption("h")) {
 			ausgabeHilfe();
 			return;
 		}
-
 		if (cmd.hasOption("v")) {
 			System.out.println("Programm Version " + Start.VERSION);
 			ausgabeHilfe();
