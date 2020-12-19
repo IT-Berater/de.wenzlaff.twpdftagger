@@ -153,7 +153,7 @@ final public class Start {
 			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
 			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
 
-			LOG.info("Textinhalt: {}", PdfReader.getTextMitTrenner(new File(inputUrl.toURI()), ","));
+			LOG.info("Textinhalt: {}", PdfExtracter.getTextMitTrenner(new File(inputUrl.toURI()), ","));
 		}
 	}
 

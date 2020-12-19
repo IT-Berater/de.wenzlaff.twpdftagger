@@ -36,7 +36,7 @@ class StartTest {
 		@Test
 		void testPdfTextExportNeg() {
 
-			String ergebnisText = PdfReader.getTextMitTrenner(new File(""), ",");
+			String ergebnisText = PdfExtracter.getTextMitTrenner(new File(""), ",");
 
 			System.out.println("Ergebnis: " + ergebnisText);
 
@@ -47,7 +47,7 @@ class StartTest {
 		@Test
 		void testPdfTextExportNegNull() {
 
-			String ergebnisText = PdfReader.getTextMitTrenner(null, ",");
+			String ergebnisText = PdfExtracter.getTextMitTrenner(null, ",");
 
 			System.out.println("Ergebnis: " + ergebnisText);
 
@@ -63,7 +63,7 @@ class StartTest {
 		@Test
 		void testPdfTextExport() {
 
-			String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), ",");
+			String ergebnisText = PdfExtracter.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), ",");
 
 			System.out.println("Ergebnis: " + ergebnisText);
 
@@ -76,7 +76,7 @@ class StartTest {
 		@Test
 		void testPdfTextExportTrenner() {
 
-			String ergebnisText = PdfReader.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), null);
+			String ergebnisText = PdfExtracter.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), null);
 
 			System.out.println("Ergebnis: " + ergebnisText);
 
