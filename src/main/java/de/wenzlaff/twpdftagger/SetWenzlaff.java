@@ -123,5 +123,4 @@ final public class SetWenzlaff {
 	private static String getDatum() {
 		return LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 	}
-
 }

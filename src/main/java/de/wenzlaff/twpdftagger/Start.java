@@ -30,7 +30,7 @@ final public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class);
 
-	public static final String VERSION = "0.0.4";
+	public static final String VERSION = "0.0.5";
 
 	private static Options options = new Options();
 
@@ -167,5 +167,4 @@ final public class Start {
 			}
 		}
 	}
-
 }

@@ -12,9 +12,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 /**
+ * Testklasse für PDF.
  * 
  * @author Thomas Wenzlaff
- *
  */
 class StartTest {
 
@@ -22,8 +22,8 @@ class StartTest {
 	@CsvSource({ "-h", "-v", "-Kommandozeilenfehler" })
 	void commandoZeilenTest(String kommandozeilenparameter, TestInfo info) throws Exception {
 
-		System.out.println("----------------------------------------------------------------------------------> "
-				+ info.getDisplayName() + " <-------------------------------------");
+		System.out.println("----------------------------------------------------------------------------------> " + info.getDisplayName()
+				+ " <-------------------------------------");
 
 		Start.main(new String[] { kommandozeilenparameter });
 	}
