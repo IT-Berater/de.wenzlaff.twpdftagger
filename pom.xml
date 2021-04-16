@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.wenzlaff.twpdftagger</groupId>
 	<artifactId>twpdftagger</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<packaging>jar</packaging>
 	<licenses>
 		<license>
@@ -31,7 +31,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-
 		<java.version>1.8</java.version>
 	</properties>
 	<build>
@@ -115,7 +114,7 @@
 			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
-				<version>5.7.0</version>
+				<version>5.8.0-M1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

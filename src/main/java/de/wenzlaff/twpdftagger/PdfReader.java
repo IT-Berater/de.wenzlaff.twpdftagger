@@ -71,8 +71,11 @@ final public class PdfReader {
 		LOG.info("Programm Start mit Version " + Start.VERSION + " ...");
 
 		String erg = PdfExtracter.getTextMitTrenner(new File(inputVerz), trenner);
-
-		LOG.info("Textinhalt: " + erg);
+		LOG.info("");
+		LOG.info("Textinhalt:");
+		LOG.info("");
+		LOG.info(erg);
+		LOG.info("");
 	}
 
 	private static void ausgabeHilfe() {
