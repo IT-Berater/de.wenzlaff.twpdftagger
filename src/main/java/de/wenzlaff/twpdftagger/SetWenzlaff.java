@@ -73,6 +73,7 @@ final public class SetWenzlaff {
 		xmp.close();
 		outputPdf.setXmpMetadata(baos.toByteArray());
 		outputPdf.close();
+		inputPdf.close();
 	}
 
 	private static void setMetadatenWenzlaff(HashMap<String, String> metadata, String pdfZielDateiName) {
