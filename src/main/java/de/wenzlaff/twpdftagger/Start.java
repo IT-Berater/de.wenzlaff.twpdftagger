@@ -30,7 +30,7 @@ final public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class);
 
-	public static final String VERSION = "0.0.5";
+	public static final String VERSION = "0.0.7";
 
 	private static Options options = new Options();
 
@@ -44,22 +44,31 @@ final public class Start {
 	 * @param args
 	 * @throws Exception
 	 */
-	@SuppressWarnings({ "deprecation", "static-access" })
+	@SuppressWarnings({"deprecation", "static-access"})
 	public static void main(String[] args) throws Exception {
 
 		options.addOption("h", "hilfe", false, "zeige die Hilfe.");
-		options.addOption("v", "version", false, "zeige die Version des Programms an");
+		options.addOption("v", "version", false,
+				"zeige die Version des Programms an");
 
-		Option pdfInputVerzeichnis = OptionBuilder.withArgName("Input Verzeichnis").hasArg()
-				.withDescription("Pdf-Input Verzeichnis relativ zum Userverzeichnis (default ./input)").create("i");
+		Option pdfInputVerzeichnis = OptionBuilder
+				.withArgName("Input Verzeichnis").hasArg()
+				.withDescription(
+						"Pdf-Input Verzeichnis relativ zum Userverzeichnis (default ./input)")
+				.create("i");
 		options.addOption(pdfInputVerzeichnis);
 
-		Option pdfOutputVerzeichnis = OptionBuilder.withArgName("Output Verzeichnis").hasArg()
-				.withDescription("Pdf-Output Verzeichnis  relativ zum Userverzeichnis (default ./output)").create("o");
+		Option pdfOutputVerzeichnis = OptionBuilder
+				.withArgName("Output Verzeichnis").hasArg()
+				.withDescription(
+						"Pdf-Output Verzeichnis  relativ zum Userverzeichnis (default ./output)")
+				.create("o");
 		options.addOption(pdfOutputVerzeichnis);
 
 		Option passwortOption = OptionBuilder.withArgName("Passwort").hasArg()
-				.withDescription("Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)").create("p");
+				.withDescription(
+						"Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)")
+				.create("p");
 		options.addOption(passwortOption);
 
 		CommandLineParser parser = new DefaultParser();
@@ -67,7 +76,8 @@ final public class Start {
 		try {
 			cmd = parser.parse(options, args);
 		} catch (Exception e) {
-			System.err.println("ERROR: Fehler beim parsen der Kommandozeile. " + e.getLocalizedMessage());
+			System.err.println("ERROR: Fehler beim parsen der Kommandozeile. "
+					+ e.getLocalizedMessage());
 			ausgabeHilfe();
 			return;
 		}
@@ -113,7 +123,7 @@ final public class Start {
 		LOG.info("Überwache jetzt das Input Verzeichnis: {} ", inputPath);
 
 		WatchService watchService = FileSystems.getDefault().newWatchService();
-		inputPath.register(watchService, StandardWatchEventKinds.ENTRY_CREATE); // nur neue Dateien erkennen
+		inputPath.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
 
 		WatchKey key;
 		while ((key = watchService.take()) != null) {
@@ -121,7 +131,8 @@ final public class Start {
 				try {
 					aktion(inputPath, outputPath, event, passwort);
 				} catch (Exception e) {
-					LOG.error("Fehler aufgetreten: {}", e.getLocalizedMessage());
+					LOG.error("Fehler aufgetreten: {}",
+							e.getLocalizedMessage());
 				}
 			}
 			key.reset();
@@ -139,8 +150,9 @@ final public class Start {
 		System.out.println("Siehe http://www.wenzlaff.info");
 	}
 
-	private static void aktion(final Path inputPath, final Path outputPath, WatchEvent<?> event, String passwort)
-			throws FileNotFoundException, IOException, DocumentException, URISyntaxException {
+	private static void aktion(final Path inputPath, final Path outputPath,
+			WatchEvent<?> event, String passwort) throws FileNotFoundException,
+			IOException, DocumentException, URISyntaxException {
 
 		String neueDatei = event.context().toString();
 
@@ -150,10 +162,12 @@ final public class Start {
 
 			URL inputUrl = null;
 
-			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
+			inputUrl = new URL(
+					"file://" + inputPath.toString() + "/" + neueDatei);
 			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
 
-			LOG.info("Textinhalt:     {}  ", PdfExtracter.getTextMitTrenner(new File(inputUrl.toURI()), ","));
+			LOG.info("Textinhalt:     {}  ", PdfExtracter
+					.getTextMitTrenner(new File(inputUrl.toURI()), ","));
 		}
 	}
 
