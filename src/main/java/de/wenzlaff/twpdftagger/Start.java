@@ -44,31 +44,25 @@ final public class Start {
 	 * @param args
 	 * @throws Exception
 	 */
-	@SuppressWarnings({"deprecation", "static-access"})
+	@SuppressWarnings({ "deprecation", "static-access" })
 	public static void main(String[] args) throws Exception {
 
 		options.addOption("h", "hilfe", false, "zeige die Hilfe.");
-		options.addOption("v", "version", false,
-				"zeige die Version des Programms an");
+		options.addOption("v", "version", false, "zeige die Version des Programms an");
 
-		Option pdfInputVerzeichnis = OptionBuilder
-				.withArgName("Input Verzeichnis").hasArg()
-				.withDescription(
-						"Pdf-Input Verzeichnis relativ zum Userverzeichnis (default ./input)")
+		Option pdfInputVerzeichnis = OptionBuilder.withArgName("Input Verzeichnis").hasArg().withDescription("Pdf-Input Verzeichnis relativ zum Userverzeichnis (default ./input)")
 				.create("i");
 		options.addOption(pdfInputVerzeichnis);
 
-		Option pdfOutputVerzeichnis = OptionBuilder
-				.withArgName("Output Verzeichnis").hasArg()
-				.withDescription(
-						"Pdf-Output Verzeichnis  relativ zum Userverzeichnis (default ./output)")
-				.create("o");
+		Option pdfOutputVerzeichnis = OptionBuilder.withArgName("Output Verzeichnis").hasArg()
+				.withDescription("Pdf-Output Verzeichnis  relativ zum Userverzeichnis (default ./output)").create("o");
 		options.addOption(pdfOutputVerzeichnis);
 
+		Option pdfInputDatei = OptionBuilder.withArgName("Input PDF Datei").hasArg().withDescription("Pdf-Input Datei").create("d");
+		options.addOption(pdfInputDatei);
+
 		Option passwortOption = OptionBuilder.withArgName("Passwort").hasArg()
-				.withDescription(
-						"Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)")
-				.create("p");
+				.withDescription("Optional, Passwort dann wird das PDF mit diesem verschlüsselt (default ohne Passwort)").create("p");
 		options.addOption(passwortOption);
 
 		CommandLineParser parser = new DefaultParser();
@@ -76,8 +70,7 @@ final public class Start {
 		try {
 			cmd = parser.parse(options, args);
 		} catch (Exception e) {
-			System.err.println("ERROR: Fehler beim parsen der Kommandozeile. "
-					+ e.getLocalizedMessage());
+			System.err.println("ERROR: Fehler beim parsen der Kommandozeile. " + e.getLocalizedMessage());
 			ausgabeHilfe();
 			return;
 		}
@@ -112,6 +105,13 @@ final public class Start {
 			passwort = cmd.getOptionValue("p");
 			System.out.println("Passwort:" + passwort);
 		}
+
+		String inputDatei = "";
+
+		if (cmd.hasOption("d")) { // TODO: so implementieren, das ein doppelklick startet
+			inputDatei = cmd.getOptionValue("d");
+			System.out.println("Input PDF Datei:" + inputDatei);
+		}
 		LOG.info("Programm Start mit Version " + VERSION + " ...");
 
 		String rootVerzeichnis = System.getProperty("user.dir");
@@ -131,8 +131,7 @@ final public class Start {
 				try {
 					aktion(inputPath, outputPath, event, passwort);
 				} catch (Exception e) {
-					LOG.error("Fehler aufgetreten: {}",
-							e.getLocalizedMessage());
+					LOG.error("Fehler aufgetreten: {}", e.getLocalizedMessage());
 				}
 			}
 			key.reset();
@@ -150,9 +149,8 @@ final public class Start {
 		System.out.println("Siehe http://www.wenzlaff.info");
 	}
 
-	private static void aktion(final Path inputPath, final Path outputPath,
-			WatchEvent<?> event, String passwort) throws FileNotFoundException,
-			IOException, DocumentException, URISyntaxException {
+	private static void aktion(final Path inputPath, final Path outputPath, WatchEvent<?> event, String passwort)
+			throws FileNotFoundException, IOException, DocumentException, URISyntaxException {
 
 		String neueDatei = event.context().toString();
 
@@ -162,12 +160,10 @@ final public class Start {
 
 			URL inputUrl = null;
 
-			inputUrl = new URL(
-					"file://" + inputPath.toString() + "/" + neueDatei);
+			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
 			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
 
-			LOG.info("Textinhalt:     {}  ", PdfExtracter
-					.getTextMitTrenner(new File(inputUrl.toURI()), ","));
+			LOG.info("Textinhalt:     {}  ", PdfExtracter.getTextMitTrenner(new File(inputUrl.toURI()), ","));
 		}
 	}
 

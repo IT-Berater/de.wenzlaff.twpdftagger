@@ -19,13 +19,23 @@ import org.junit.jupiter.params.provider.CsvSource;
 class StartTest {
 
 	@ParameterizedTest(name = "{index}. Überprüfter Kommandozeilen Parameter: {arguments}")
-	@CsvSource({ "-h", "-v", "-Kommandozeilenfehler" })
-	void commandoZeilenTest(String kommandozeilenparameter, TestInfo info) throws Exception {
+	@CsvSource({"-h", "-v", "-Kommandozeilenfehler"})
+	void commandoZeilenTest(String kommandozeilenparameter, TestInfo info)
+			throws Exception {
 
-		System.out.println("----------------------------------------------------------------------------------> " + info.getDisplayName()
-				+ " <-------------------------------------");
+		printTrenner(info);
 
-		Start.main(new String[] { kommandozeilenparameter });
+		Start.main(new String[]{kommandozeilenparameter});
+	}
+
+	@ParameterizedTest(name = "{index}. Überprüfter Kommandozeilen Parameter mit einer PDF-Input Datei: {arguments}")
+	@CsvSource({"-d src/test/resources/Top-Skills.pdf"})
+	void commandoZeilenTestEineDatei(String kommandozeilenparameter,
+			TestInfo info) throws Exception {
+
+		printTrenner(info);
+
+		Start.main(new String[]{kommandozeilenparameter});
 	}
 
 	@DisplayName("Neg. extrahieren Tests")
@@ -36,7 +46,8 @@ class StartTest {
 		@Test
 		void testPdfTextExportNeg() {
 
-			String ergebnisText = PdfExtracter.getTextMitTrenner(new File(""), ",");
+			String ergebnisText = PdfExtracter.getTextMitTrenner(new File(""),
+					",");
 
 			System.out.println("Ergebnis: " + ergebnisText);
 		}
@@ -59,7 +70,8 @@ class StartTest {
 		@Test
 		void testPdfTextExport() {
 
-			String ergebnisText = PdfExtracter.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), ",");
+			String ergebnisText = PdfExtracter.getTextMitTrenner(
+					new File("src/test/resources/Top-Skills.pdf"), ",");
 
 			System.out.println("Ergebnis: " + ergebnisText);
 
@@ -70,11 +82,19 @@ class StartTest {
 		@Test
 		void testPdfTextExportTrenner() {
 
-			String ergebnisText = PdfExtracter.getTextMitTrenner(new File("src/test/resources/Top-Skills.pdf"), null);
+			String ergebnisText = PdfExtracter.getTextMitTrenner(
+					new File("src/test/resources/Top-Skills.pdf"), null);
 
 			System.out.println("Ergebnis: " + ergebnisText);
 
 			assertTrue(ergebnisText.length() > 10);
 		}
+	}
+
+	private void printTrenner(TestInfo info) {
+		System.out.println(
+				"----------------------------------------------------------------------------------> "
+						+ info.getDisplayName()
+						+ " <-------------------------------------");
 	}
 }
