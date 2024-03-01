@@ -32,7 +32,7 @@ public class PdfExtracter {
 		if (trenner == null) {
 			trenner = ",";
 		}
-		LOG.info("Verwende Trennzeichen {}", trenner);
+		LOG.debug("Verwende Trennzeichen {}", trenner);
 
 		String pdfText = "";
 		try {

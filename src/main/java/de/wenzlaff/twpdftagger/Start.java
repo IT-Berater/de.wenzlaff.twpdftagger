@@ -30,7 +30,7 @@ final public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class);
 
-	public static final String VERSION = "0.0.7";
+	public static final String VERSION = "0.0.8";
 
 	private static Options options = new Options();
 
@@ -163,7 +163,7 @@ final public class Start {
 			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
 			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
 
-			LOG.info("Textinhalt:     {}  ", PdfExtracter.getTextMitTrenner(new File(inputUrl.toURI()), ","));
+			LOG.info("{}", PdfExtracter.getTextMitTrenner(new File(inputUrl.toURI()), ","));
 		}
 	}
 

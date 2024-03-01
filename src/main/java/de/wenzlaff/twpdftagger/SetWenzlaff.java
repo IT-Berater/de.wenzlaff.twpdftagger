@@ -50,8 +50,8 @@ final public class SetWenzlaff {
 
 		PdfReader inputPdf = new PdfReader(pdfInputDateiName);
 
-		LOG.info("Überschreibe die Metadaten aus Datei {} mit eigene.", pdfInputDateiName);
-		LOG.info("Folgende Metadaten werden überschrieben: {} ", inputPdf.getInfo());
+		LOG.debug("Überschreibe die Metadaten aus Datei {} mit eigene.", pdfInputDateiName);
+		LOG.debug("Folgende Metadaten werden überschrieben: {} ", inputPdf.getInfo());
 
 		File ausgabePdf = new File(pdfZielPath.toFile(), pdfZielDateiName);
 
