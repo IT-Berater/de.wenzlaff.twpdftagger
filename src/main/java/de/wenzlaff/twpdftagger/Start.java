@@ -26,11 +26,12 @@ import org.apache.logging.log4j.Logger;
 
 import com.itextpdf.text.DocumentException;
 
+@SuppressWarnings("deprecation")
 final public class Start {
 
 	private static final Logger LOG = LogManager.getLogger(Start.class.getName());
 
-	public static final String VERSION = "0.0.9";
+	public static final String VERSION = "0.1.0";
 
 	private static Options options = new Options();
 
@@ -41,7 +42,7 @@ final public class Start {
 	 * @throws Exception
 	 */
 
-	@SuppressWarnings({ "deprecation", "static-access" })
+	@SuppressWarnings({ "static-access" })
 	public static void main(String[] args) throws Exception {
 
 		options.addOption("h", "hilfe", false, "zeige die Hilfe.");

@@ -9,8 +9,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Lesen von PDF Dokumenten.
@@ -18,9 +16,8 @@ import org.apache.logging.log4j.Logger;
  * @author Thomas Wenzlaff
  *
  */
+@SuppressWarnings("deprecation")
 final public class PdfReader {
-
-	private static final Logger LOG = LogManager.getLogger(PdfReader.class);
 
 	private static Options options = new Options();
 
@@ -28,6 +25,7 @@ final public class PdfReader {
 		// nur Util
 	}
 
+	@SuppressWarnings("static-access")
 	public static void main(String[] args) {
 
 		options.addOption("h", "hilfe", false, "zeige die Hilfe.");
