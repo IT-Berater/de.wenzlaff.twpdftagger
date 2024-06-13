@@ -28,15 +28,11 @@ import com.itextpdf.text.DocumentException;
 
 final public class Start {
 
-	private static final Logger LOG = LogManager.getLogger(Start.class);
+	private static final Logger LOG = LogManager.getLogger(Start.class.getName());
 
-	public static final String VERSION = "0.0.8";
+	public static final String VERSION = "0.0.9";
 
 	private static Options options = new Options();
-
-	private Start() {
-		// nur Util
-	}
 
 	/**
 	 * Start Methode.
@@ -44,6 +40,7 @@ final public class Start {
 	 * @param args
 	 * @throws Exception
 	 */
+
 	@SuppressWarnings({ "deprecation", "static-access" })
 	public static void main(String[] args) throws Exception {
 
@@ -163,6 +160,7 @@ final public class Start {
 			inputUrl = new URL("file://" + inputPath.toString() + "/" + neueDatei);
 			SetWenzlaff.setMetadaten(inputUrl, outputPath, neueDatei, passwort);
 
+			LOG.info("");
 			LOG.info("{}", PdfExtracter.getTextMitTrenner(new File(inputUrl.toURI()), ","));
 		}
 	}

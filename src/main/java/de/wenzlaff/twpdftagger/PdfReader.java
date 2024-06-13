@@ -68,8 +68,6 @@ final public class PdfReader {
 			System.out.println("Trenner:" + trenner);
 		}
 
-		LOG.info("Programm Start mit Version " + Start.VERSION + " ...");
-
 		PdfExtracter.getTextMitTrenner(new File(inputVerz), trenner);
 	}
 

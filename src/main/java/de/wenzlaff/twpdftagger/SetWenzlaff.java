@@ -27,7 +27,6 @@ import com.itextpdf.text.xml.xmp.XmpWriter;
  * Die zu setzenden Metainfos werden aus einer Propertie Datei eingelesen.
  * 
  * @author Thomas Wenzlaff
- *
  */
 final public class SetWenzlaff {
 
