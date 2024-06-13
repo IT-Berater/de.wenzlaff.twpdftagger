@@ -26,6 +26,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.itextpdf.text.DocumentException;
 
+/**
+ * Start Klasse für den TWPdfTagger mit Apache PDFBox.
+ * 
+ * @author Thomas Wenzlaff
+ */
 @SuppressWarnings("deprecation")
 final public class Start {
 
@@ -41,7 +46,6 @@ final public class Start {
 	 * @param args
 	 * @throws Exception
 	 */
-
 	@SuppressWarnings({ "static-access" })
 	public static void main(String[] args) throws Exception {
 
@@ -118,7 +122,7 @@ final public class Start {
 		mkdir(inputPath);
 		mkdir(outputPath);
 
-		LOG.info("Überwache jetzt das Input Verzeichnis: {} ", inputPath);
+		LOG.info("Überwache jetzt das Input Verzeichnis auf PDF-Dateien: {} ", inputPath);
 
 		WatchService watchService = FileSystems.getDefault().newWatchService();
 		inputPath.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);

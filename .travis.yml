@@ -3,7 +3,7 @@ language: java
 sudo: false # faster builds
 
 jdk:
-  - openjdk8
+  - openjdk19
   
 dist: trusty
   
