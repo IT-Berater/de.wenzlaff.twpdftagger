@@ -49,6 +49,9 @@ final public class Start {
 	@SuppressWarnings({ "static-access" })
 	public static void main(String[] args) throws Exception {
 
+		Thread currentThread = Thread.currentThread();
+		currentThread.setName("TWPdfTagger " + VERSION);
+
 		options.addOption("h", "hilfe", false, "zeige die Hilfe.");
 		options.addOption("v", "version", false, "zeige die Version des Programms an");
 
