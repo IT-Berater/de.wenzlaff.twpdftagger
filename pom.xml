@@ -22,10 +22,8 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>
-			scm:git:git@github.com:IT-Berater/de.wenzlaff.twpdftagger.git</connection>
-		<developerConnection>
-			scm:git:git@github.com:IT-Berater/de.wenzlaff.twpdftagger.git</developerConnection>
+		<connection>scm:git:git@github.com:IT-Berater/de.wenzlaff.twpdftagger.git</connection>
+		<developerConnection>scm:git:git@github.com:IT-Berater/de.wenzlaff.twpdftagger.git</developerConnection>
 		<url>https://github.com/IT-Berater/de.wenzlaff.twpdftagger</url>
 	</scm>
 	<properties>
